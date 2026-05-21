@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Danh mục</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+
+<div th:replace="~{fragment/fragment :: header-admin}"></div>
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <h4 class="m-0"><i class="bi bi-tag"></i> Danh mục thuốc</h4>
+            <button type="button" class="btn btn-primary" onclick="openAddModal()">
+                <i class="bi bi-plus-lg"></i> Thêm mới
+            </button>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Tên danh mục</th>
+                    <th>Mô tả</th>
+                    <th class="text-center">Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cat : ${categories}">
+                    <td th:text="${cat.id}">1</td>
+                    <td th:text="${cat.name}">Tên</td>
+                    <td th:text="${cat.description}">Mô tả</td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-outline-warning me-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#categoryModal"
+                                th:attr="data-id=${cat.id}, data-name=${cat.name}, data-desc=${cat.description}">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <a th:href="@{/admin/category/delete/{id}(id=${cat.id})}"
+                           class="btn btn-sm btn-outline-danger"
+                           onclick="return confirm('Bạn chắc chắn muốn xóa?')">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="categoryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <form th:action="@{/admin/category/save}" method="post" class="modal-content" th:object="${category}">
+            <input type="hidden" id="modalId" th:field="*{id}">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Thêm danh mục mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Tên danh mục <span class="text-danger">*</span></label>
+                    <input type="text" id="modalName" th:field="*{name}" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Mô tả</label>
+                    <textarea id="modalDesc" th:field="*{description}" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-primary">Lưu lại</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const categoryModal = document.getElementById('categoryModal');
+
+    // Khi Modal được mở, gán dữ liệu từ data-attributes vào form
+    categoryModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const modalTitle = categoryModal.querySelector('.modal-title');
+
+        if (button.getAttribute('data-id')) { // Nếu có data-id -> Chế độ Sửa
+            document.getElementById('modalId').value = button.getAttribute('data-id');
+            document.getElementById('modalName').value = button.getAttribute('data-name');
+            document.getElementById('modalDesc').value = button.getAttribute('data-desc');
+            modalTitle.innerText = 'Cập nhật danh mục';
+        } else { // Chế độ Thêm mới
+            document.getElementById('modalId').value = '';
+            document.getElementById('modalName').value = '';
+            document.getElementById('modalDesc').value = '';
+            modalTitle.innerText = 'Thêm danh mục mới';
+        }
+    });
+
+    function openAddModal() {
+        // Mở modal mà không có data-attribute (nút "Thêm mới" bên ngoài)
+        const myModal = new bootstrap.Modal(categoryModal);
+        myModal.show();
+    }
+</script>
+</body>
+</html>

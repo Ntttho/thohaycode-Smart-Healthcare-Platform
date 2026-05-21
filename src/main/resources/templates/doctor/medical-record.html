@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Hồ Sơ Bệnh Án</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Nhập Hồ Sơ Bệnh Án - Appt ID: [[${appointmentId}]]</h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/doctor/medical-record/{id}(id=${appointmentId})}"
+                          th:object="${medicalRecord}"
+                          method="POST">
+                        <!-- Trường Symptoms (Triệu chứng) -->
+                        <div class="mb-3">
+                            <label for="symptoms" class="form-label fw-bold">Triệu chứng</label>
+                            <textarea class="form-control" id="symptoms" th:field="*{symptoms}" rows="3" placeholder="Nhập triệu chứng bệnh nhân..."></textarea>
+                        </div>
+
+                        <!-- Trường Diagnosis (Chẩn đoán) -->
+                        <div class="mb-3">
+                            <label for="diagnosis" class="form-label fw-bold">Chẩn đoán</label>
+                            <textarea class="form-control" id="diagnosis" th:field="*{diagnosis}" rows="3" placeholder="Nhập kết quả chẩn đoán..."></textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a th:href="@{/doctor/prescriptions}" class="btn btn-outline-secondary">Hủy</a>
+                            <button type="submit" class="btn btn-primary">Lưu hồ sơ</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
