@@ -12,16 +12,16 @@
 <body>
 <div th:replace="~{fragment/fragment :: header-patient}"></div>
 <div class="container mt-5">
-    <h2>My Appointment History</h2>
+    <h2>Lịch hẹn của tôi</h2>
     <hr>
 
     <table class="table table-hover mt-4">
         <thead class="table-light">
         <tr>
-            <th>Doctor</th>
-            <th>Reason</th>
-            <th>Date & Time</th>
-            <th>Status</th>
+            <th>Bác sĩ</th>
+            <th>Lý do</th>
+            <th>Ngày và giờ</th>
+            <th>Trạng thái</th>
         </tr>
         </thead>
         <tbody>
@@ -58,7 +58,7 @@
             </td>
         </tr>
         <tr th:if="${#lists.isEmpty(appointments)}">
-            <td colspan="4" class="text-center">No appointments found.</td>
+            <td colspan="4" class="text-center">Bạn chưa có đặt lịch nào</td>
         </tr>
 
 

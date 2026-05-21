@@ -51,6 +51,11 @@ public class AuthController {
             userCookie.setMaxAge(7 * 24 * 60 * 60);
             userCookie.setPath("/");
             userCookie.setHttpOnly(true);
+
+            roleUserCookie.setMaxAge(7 * 24 * 60 * 60);
+            roleUserCookie.setPath("/");
+            roleUserCookie.setHttpOnly(true);
+
             response.addCookie(userCookie);
             response.addCookie(roleUserCookie);
 
